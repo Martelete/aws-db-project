@@ -23,14 +23,15 @@ The Autoscaling group will be attached to the load balancer allowing the ec2 ins
 Allow users to connect on the instance via the AWS console, the SSMInstanceProfile policy allows connectivity from "Session Manager".
 
 ## How to test the ALB to check whether works?
-After deployed, grab the ALB DNS name and paste on the URL as the port 80 will be open, a small Hello World message shoudl display :) 
+After deployed, grab the ALB DNS name and paste on the URL as the port 80 will be open, a small **Hello World** message should display :) 
 
 ## How test connectivity from the EC2 instances to the RDS instance?
 - Login via the AWS console by selecting the ec2 instance and click in `Connect`
 - Open `Session Manager`
 - Run telnet command `telnet <db_endpoint> 3306`
-## Further improvements
+## Improvements section
 - Having a DNS (Route53 alias) created in front of the ALB inside a hosted zone to have a proper name of the service.
 - Instead of having applications listening on port 80 (HTTP), would be safer create a ACM (AWS Certificate Manager) and create a listener rules redirect the port 80 to 443.
 - IAM roles/policies would be a better restrictions of certain resources.
+- A creation of `modules` instead of `resources` would be a better option but it's due to a time consuming
 - CICD integration could be integrated on GitHub Actions, GitLabCI, Jenkins, Atlantis... 
