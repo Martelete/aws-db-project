@@ -35,6 +35,6 @@ variable "ami_image_id" {
 }
 
 variable "instance_type" {
-  default     = "t2.nano"
-  type        = string
+  default = "t2.nano"
+  type    = string
 }

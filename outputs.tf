@@ -1,5 +1,5 @@
 output "asg_name" {
-    value = aws_autoscaling_group.asg.name
+  value = aws_autoscaling_group.asg.name
 }
 
 output "lb_endpoint" {
@@ -11,6 +11,6 @@ output "db_endpoint" {
 }
 
 output "passwords" {
-  value = random_password.password.result
+  value     = random_password.password.result
   sensitive = true
 }

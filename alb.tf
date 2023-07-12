@@ -14,9 +14,9 @@ resource "aws_security_group" "instance_sg" {
   }
 
   egress {
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
     security_groups = [aws_security_group.rds_sg.id]
   }
 
@@ -51,13 +51,13 @@ resource "aws_security_group" "alb_sg" {
 resource "aws_security_group" "rds_sg" {
   name        = "db_instance_sg"
   description = "Security group for RDS instance"
-  vpc_id      = aws_vpc.main.vpc_id 
+  vpc_id      = aws_vpc.main.vpc_id
 
   ingress {
-    from_port       = 3306
-    to_port         = 3306
-    protocol        = "tcp"
-    cidr_blocks     = [aws_vpc.main.cidr_block]
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = [aws_vpc.main.cidr_block]
   }
 }
 
@@ -91,13 +91,13 @@ resource "aws_lb_target_group" "asg_tg" {
   vpc_id   = aws_vpc.main.vpc_id
 
   health_check {
-    enabled = true
-    matcher = 200
-    healthy_threshold = 3
+    enabled             = true
+    matcher             = 200
+    healthy_threshold   = 3
     unhealthy_threshold = 3
-    interval = 30
-    timeout = 5
-    protocol = "HTTP"
+    interval            = 30
+    timeout             = 5
+    protocol            = "HTTP"
   }
 }
 

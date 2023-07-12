@@ -2,10 +2,10 @@
 ## AWS Launch Template ##
 #########################
 resource "aws_launch_template" "ec2_asg" {
-  name_prefix   = "cint_lt"
-  image_id      = var.ami_image_id
-  instance_type = var.instance_type
-  user_data = filebase64("${path.module}/script/user_data.sh")
+  name_prefix            = "cint_lt"
+  image_id               = var.ami_image_id
+  instance_type          = var.instance_type
+  user_data              = filebase64("${path.module}/script/user_data.sh")
   vpc_security_group_ids = [aws_security_group.instance_sg.id]
 
   iam_instance_profile {
@@ -40,7 +40,7 @@ resource "aws_launch_template" "ec2_asg" {
 ###########################
 
 resource "aws_autoscaling_group" "asg" {
-  
+
   name                      = "cint_asg"
   min_size                  = 2
   max_size                  = 2
@@ -49,13 +49,13 @@ resource "aws_autoscaling_group" "asg" {
   health_check_type         = "ELB"
   target_group_arns         = [aws_lb_target_group.asg_tg.arn]
 
-  launch_template      {
+  launch_template {
     id      = aws_launch_template.ec2_asg.id
     version = "$Latest"
   }
 
-  vpc_zone_identifier  = aws_subnet.public.id
-  
+  vpc_zone_identifier = aws_subnet.public.id
+
   depends_on = [
     aws_lb_listener.asg_listener
   ]
