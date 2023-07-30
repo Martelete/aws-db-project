@@ -3,7 +3,7 @@
 #########################
 resource "aws_launch_template" "ec2_asg" {
   name_prefix            = "cint_lt"
-  image_id               = var.ami_image_id
+  image_id               = data.aws_ami.amazon_linux.arn
   instance_type          = var.instance_type
   user_data              = filebase64("${path.module}/script/user_data.sh")
   vpc_security_group_ids = [aws_security_group.instance_sg.id]
@@ -41,7 +41,7 @@ resource "aws_launch_template" "ec2_asg" {
 
 resource "aws_autoscaling_group" "asg" {
 
-  name                      = "cint_asg"
+  name                      = "asg"
   min_size                  = 2
   max_size                  = 2
   desired_capacity          = 2
@@ -54,9 +54,32 @@ resource "aws_autoscaling_group" "asg" {
     version = "$Latest"
   }
 
-  vpc_zone_identifier = aws_subnet.public.id
+  vpc_zone_identifier = aws_subnet.public[*].id
 
   depends_on = [
     aws_lb_listener.asg_listener
   ]
 }
+
+########################
+## AWS Kinesis Stream ##
+########################
+
+# resource "aws_kinesis_stream" "test_stream" {
+#   name             = "kinesis-test"
+#   shard_count      = 1
+#   retention_period = 48
+
+#   shard_level_metrics = [
+#     "IncomingBytes",
+#     "OutgoingBytes",
+#   ]
+
+#   stream_mode_details {
+#     stream_mode = "PROVISIONED"
+#   }
+
+#   tags = {
+#     Environment = "test"
+#   }
+# }

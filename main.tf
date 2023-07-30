@@ -10,7 +10,7 @@ terraform {
 }
 
 provider "aws" {
-  region = data.aws_region.current.name
+  region = "eu-west-1"
 }
 
 resource "random_password" "password" {
@@ -36,5 +36,5 @@ resource "aws_db_instance" "db_instance" {
 
 resource "aws_db_subnet_group" "default" {
   name       = "main"
-  subnet_ids = aws_subnet.private.ids
+  subnet_ids = aws_subnet.private[*].id
 }

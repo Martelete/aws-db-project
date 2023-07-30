@@ -2,9 +2,9 @@
 ## AWS Security Groups ##
 #########################
 resource "aws_security_group" "instance_sg" {
-  name        = "instance_sg"
+  name        = "instance-sg"
   description = "Security group for EC2 instances"
-  vpc_id      = aws_vpc.main.vpc_id
+  vpc_id      = aws_vpc.main.id
 
   ingress {
     from_port       = 80
@@ -29,9 +29,9 @@ resource "aws_security_group" "instance_sg" {
 }
 
 resource "aws_security_group" "alb_sg" {
-  name        = "alb_sg"
+  name        = "alb-sg"
   description = "Security group for ALB"
-  vpc_id      = aws_vpc.main.vpc_id
+  vpc_id      = aws_vpc.main.id
 
   ingress {
     from_port   = 80
@@ -49,9 +49,9 @@ resource "aws_security_group" "alb_sg" {
 }
 
 resource "aws_security_group" "rds_sg" {
-  name        = "db_instance_sg"
+  name        = "db-instance-sg"
   description = "Security group for RDS instance"
-  vpc_id      = aws_vpc.main.vpc_id
+  vpc_id      = aws_vpc.main.id
 
   ingress {
     from_port   = 3306
@@ -66,11 +66,11 @@ resource "aws_security_group" "rds_sg" {
 #############
 
 resource "aws_lb" "asg_lb" {
-  name               = "cint-lb"
+  name               = "lb"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
-  subnets            = aws_subnet.public.id
+  subnets            = aws_subnet.public[*].id
 }
 
 resource "aws_lb_listener" "asg_listener" {
@@ -88,7 +88,7 @@ resource "aws_lb_target_group" "asg_tg" {
   name     = "alb-tg"
   port     = 80
   protocol = "HTTP"
-  vpc_id   = aws_vpc.main.vpc_id
+  vpc_id   = aws_vpc.main.id
 
   health_check {
     enabled             = true
