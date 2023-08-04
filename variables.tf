@@ -1,6 +1,6 @@
 variable "name" {
   type        = string
-  default     = "cint-code-test"
+  default     = "test-code"
   description = "Root name for resources in this project"
 }
 

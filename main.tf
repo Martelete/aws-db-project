@@ -21,10 +21,10 @@ resource "random_password" "password" {
 
 resource "aws_db_instance" "db_instance" {
   allocated_storage      = 10
-  db_name                = "cint_demo_db"
+  db_name                = "demo-db"
   engine                 = "mysql"
   engine_version         = "8.0"
-  identifier             = "cint-rds-demo"
+  identifier             = "rds-demo"
   db_subnet_group_name   = aws_db_subnet_group.default.id
   instance_class         = "db.t3.micro"
   username               = "admin"

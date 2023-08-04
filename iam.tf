@@ -18,7 +18,7 @@ resource "aws_iam_role" "ssm_role" {
 }
 
 resource "aws_iam_role_policy_attachment" "role_attach" {
-  policy_arn = ["arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore", ""]
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   role       = aws_iam_role.ssm_role.name
 }
 
@@ -27,38 +27,38 @@ resource "aws_iam_instance_profile" "this" {
   name = "instanceProfileSSM"
 }
 
-#################
-## AWS Kinesis ##
-#################
-data "aws_iam_policy_document" "Kinesis" {
-  statement {
-    sid = "1"
+# #################
+# ## AWS Kinesis ##
+# #################
+# data "aws_iam_policy_document" "Kinesis" {
+#   statement {
+#     sid = "1"
 
-    actions = [
-      "kinesis:DescribeStream",
-      "kinesis:PutRecord",
-      "kinesis:PutRecords",
-      "kinesis:GetShardIterator",
-      "kinesis:GetRecords",
-      "kinesis:ListShards",
-      "kinesis:DescribeStreamSummary",
-      "kinesis:RegisterStreamConsumer"
-    ]
+#     actions = [
+#       "kinesis:DescribeStream",
+#       "kinesis:PutRecord",
+#       "kinesis:PutRecords",
+#       "kinesis:GetShardIterator",
+#       "kinesis:GetRecords",
+#       "kinesis:ListShards",
+#       "kinesis:DescribeStreamSummary",
+#       "kinesis:RegisterStreamConsumer"
+#     ]
 
-    resources = [
-      aws_kinesis_stream.test_stream.arn,
-    ]
-  }
-}
+#     resources = [
+#       aws_kinesis_stream.test_stream.arn,
+#     ]
+#   }
+# }
 
-resource "aws_iam_policy" "kinesis_policy" {
-  name        = "test-policy"
-  description = "A test policy"
-  policy      = data.aws_iam_policy_document.Kinesis.json
-}
+# resource "aws_iam_policy" "kinesis_policy" {
+#   name        = "kinesis-policy"
+#   description = "A test policy"
+#   policy      = data.aws_iam_policy_document.Kinesis.json
+# }
 
-resource "aws_iam_policy_attachment" "test-attach" {
-  name       = "kinesis-policy"
-  roles      = aws_iam_role.ssm_role.arn
-  policy_arn = aws_iam_policy.kinesis_policy.arn
-}
+# resource "aws_iam_policy_attachment" "test-attach" {
+#   name       = "kinesis-policy-attachment"
+#   roles      = aws_iam_role.ssm_role.arn
+#   policy_arn = aws_iam_policy.kinesis_policy.arn
+# }
