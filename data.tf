@@ -7,13 +7,8 @@ data "aws_ami" "amazon_linux" {
 
   filter {
     name   = "name"
-    values = ["Ubuntu"]
+    values = ["amzn-ami-hvm-*-x86_64-gp*"]
   }
 
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["099720109477"] # Canonical
+  owners = ["amazon"] # Canonical
 }

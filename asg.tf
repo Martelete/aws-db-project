@@ -2,7 +2,7 @@
 ## AWS Launch Template ##
 #########################
 resource "aws_launch_template" "ec2_asg" {
-  name_prefix            = "cint_lt"
+  name_prefix            = "dev_lt"
   image_id               = data.aws_ami.amazon_linux.arn
   instance_type          = var.instance_type
   user_data              = filebase64("${path.module}/script/user_data.sh")
@@ -26,7 +26,7 @@ resource "aws_launch_template" "ec2_asg" {
     resource_type = "instance"
 
     tags = {
-      Name = "cint_demo_instances"
+      Name = "demo_instances"
     }
   }
 
